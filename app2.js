@@ -74,16 +74,19 @@ var renderItem = function(element, item) {
 
 
 var renderList = function(state, element) {
+  console.log('renderList');
+  console.log(state);
   if (!state.items.length) {
     element.empty();
   }
+  var htmls = '';
   for (var i=0; i < state.items.length; i++) {
     console.log(state.items[i].name);
     var nameValue = state.items[i].name;
     var completedValue = state.items[i].completed;
     var completeClass = '';
     var completeCheck = '';
-     var itemMaker = function (nameValue, completedValue) {
+    var itemMaker = function (nameValue, completedValue) {
       if (completedValue) {
         completeClass = 'shopping-item__checked';
         completeCheck = 'checked';
@@ -102,9 +105,10 @@ var renderList = function(state, element) {
       itemTemplate += nameValue;
       itemTemplate += '</span></label><input type="checkbox" id="" name=""></div></li>';
       return itemTemplate;
+      };
+    htmls += itemMaker(nameValue, completedValue);
   };
-    element.html(itemMaker(nameValue, completedValue));
-  };
+  element.html(htmls);
 };
 
 
