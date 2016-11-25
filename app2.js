@@ -1,3 +1,6 @@
+//When you add do a confirm deletes and then add a new item you cannot chekc or delete the new items
+
+
 'use strict';
 
 // State Object
@@ -19,6 +22,7 @@ function addItem(state, item, indexVal) {
 
 function completedItem(state, checkIndex, that) {
   if ($(that).is(':checked')) {
+
     state.items[checkIndex].completed = true;
     $(that).closest('h3').addClass('shopping-item__checked');
   } else {
@@ -94,7 +98,6 @@ function displayItems(state) {
 
 
 
-
 // Event Listeners
 
 $(document).ready(function() {
@@ -111,15 +114,21 @@ $(document).ready(function() {
 
   //Checkbox Completed
   $('.shopping-list').on('change', 'li h3 input', function(e) {
-      var checkIndex = $(this).attr('id') - 1;
-      completedItem(state, checkIndex, $(this));
+    var checkIndex = $(this).attr('id');
+    var indexAns = state.items.findIndex(function(x) {
+      return x.index == checkIndex;
+      });
+      completedItem(state, indexAns, $(this));
   });
 
 
   //Checkbox Deleted
   $('.shopping-list').on('change', 'li .shopping-item-controls input', function(e) {
-    var deleteIndex = $(this).closest('div').siblings('h3').children('input').attr('id') - 1;
-    toDeleteItem(state, deleteIndex, $(this));
+    var deleteIndex = $(this).closest('div').siblings('h3').children('input').attr('id');
+    var indexAns = state.items.findIndex(function(x) {
+      return x.index == deleteIndex;
+      });
+    toDeleteItem(state, indexAns, $(this));
   });
 
   //Confirm Deletes
